@@ -1,0 +1,14 @@
+import java.util.Scanner;
+class SimpleIntrest{
+    public static void main(String args[]){
+        int p,t;
+        float s,r;
+        Scanner S= new Scanner(System.in);
+        System.out.println("enter Principle Time and rate of intrest");
+        p=S.nextInt();
+        t=S.nextInt();
+        r=S.nextFloat();
+        s=(p*t*r)/100;
+        System.out.println("simple intrest is "+s);
+    }
+}       
