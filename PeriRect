@@ -1,0 +1,12 @@
+import java.util.Scanner;
+class PeriRect{
+    public static void main(String args[]){
+        int L,B,P;
+        Scanner S=new Scanner(System.in);
+        System.out.println("Enter Length and Breadth");
+        L=S.nextInt();
+        B=S.nextInt();
+        P=(L+B)*2;
+        System.out.println("Perimeter of the rectangle is "+P);
+    }
+}
