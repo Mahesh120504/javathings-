@@ -1,0 +1,59 @@
+import java.util.Scanner*;
+// Base class
+class Payment {
+    public void processPayment(double amount) {
+        System.out.println("Processing payment of Rs" + amount);
+    }
+}
+
+// Derived class for Credit Card Payment
+class CreditCardPayment extends Payment {
+    @Override
+    public void processPayment(double amount) {
+        System.out.println("Processing credit card payment of Rs" + amount);
+        // Add logic for processing credit card payment
+    }
+}
+
+// Derived class for PayPal Payment
+class PaypalPayment extends Payment {
+    @Override
+    public void processPayment(double amount) {
+        System.out.println("Processing PayPal payment of Rs" + amount);
+        // Add logic for processing PayPal payment
+    }
+}
+class BankTransfer extends Payment {
+    @Override
+    public void processPayment(double amount) {
+        System.out.println("Processing Bank Transfer payment of Rs" + amount);
+        // Add logic for processing credit card payment
+    }
+}
+
+
+// Main class to test the payments
+public class PaymentProcessor {
+    public static void main(String[] args) {
+        Scanner s=new Scanner(System.in);
+        int ch;
+double amt;
+System.out.println("enter the amount to make payment");
+amt=s.nextDouble();
+        System.out.println("1. Credit card\n2. Paypal\n3. Bank Transfer\nselect a method to make payment");
+        ch=s.nextInt();
+        if (ch==1){
+            Payment p =new CreditCardPayment();
+            p.processPayment(amt);
+        }else if(ch==2){
+            Payment p =new PaypalPayment();
+            p.processPayment(amt);
+        }else if(ch==3){
+            Payment p =new BankTransfer();
+            p.processPayment(amt);
+        }else{
+            System.out.println("Invalid choice");
+        }
+
+    }
+}
