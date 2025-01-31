@@ -1,0 +1,38 @@
+import java.util.Scanner;
+class choco{
+    public static void main(String args[]){
+    int a;
+    Scanner S=new Scanner(System.in);
+        System.out.println("enter your age");
+        a=S.nextInt();
+        if(a>=20&&a<=25){
+            System.out.println("you get a dairy milk");
+        }else if(a>=15&&a<=19){
+            System.out.println("you get a munch");
+        }else if(a>=10&&a<=14){
+            System.out.println("you get a kitkat");
+        }else if(a>26){
+            System.out.println("Go get yourself a chocolate bruh");
+        }else{
+            System.out.println("you are not allowed to eat chocolate");
+        }
+    
+}}
+class triangle{
+    public static void main(String args[]){
+      int a,b,c;
+      Scanner S=new Scanner(System.in);  
+      System.out.println("enter the lengths of the triangle");
+        a=S.nextInt();
+        b=S.nextInt();
+        c=S.nextInt();
+        if(a==b&&b==c){
+            System.out.println("the given triangle is equilateral triangle");
+        }else if(a==b||b==c||a==c){
+            System.out.println("the given triangle is an isoceles triangle");
+        }else{
+            System.out.println("Given triangle is a scalene triangle");
+        }
+        
+    }
+}
