@@ -1,0 +1,27 @@
+class employee {
+    String N;
+    String JT;
+    double Sal;
+    employee(String n, String jt, double sal){
+        N=n;
+        JT=jt;
+        Sal=sal;    
+    }
+     public void disp(){
+         
+        System.out.println("Name:"+N);
+        System.out.println("Job Title:"+JT);
+        System.out.println("Salary:"+Sal);
+    }
+     public void Incr(){
+         Sal=Sal+(Sal/10);
+     }
+    public static void main(String args[]){
+        employee e1=new employee("Mahesh","Devloper",50000);
+        e1.disp();
+        e1.Incr();
+        e1.disp();
+        
+        
+    }
+}
