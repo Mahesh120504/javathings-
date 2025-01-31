@@ -1,0 +1,94 @@
+import java.util.Scanner;
+public class Mats {
+    public static void main(String args[]){
+        int choice;
+        int r,c;
+        Scanner s= new Scanner(System.in);
+        System.out.println("enter rows and columns");
+        r=s.nextInt();
+        c=s.nextInt();
+        int[][] A =new int[r][c];
+        int[][] B =new int[r][c];
+        int[][] C =new int[r][c];
+        System.out.println("enter the elements of A");
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+               A[i][j]=s.nextInt();
+
+            }
+        }
+        System.out.println("enter the elements of B");
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+               B[i][j]=s.nextInt();
+
+            }
+        }
+        System.out.println("matrix operations");
+        System.out.println("1.Addition");
+        System.out.println("2.Subtraction");
+        System.out.println("3.Multiplication");
+        System.out.println("4.Scalar multiplication");
+        System.out.println("enter option");
+        choice=s.nextInt();
+switch(choice){
+    case 1:
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                C[i][j]=A[i][j]+B[i][j];
+            }
+        }
+        System.out.println("Matrix Addition");
+    for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                System.out.print(C[i][j]);
+            }System.out.println();
+        }
+    break;
+    case 2:
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                C[i][j]=A[i][j]-B[i][j];
+            }
+        }
+        System.out.println("Matrix Subtraction");
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                System.out.print(C[i][j]);
+            }System.out.println();
+        }
+    break;
+    case 3:
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                C[i][j]=0;
+                for(int k=0;k<2;k++){
+                    C[i][j]+=A[i][k]*B[k][j];
+                }
+            }
+        }
+        System.out.println("Matrix multiplication");
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                System.out.print(C[i][j]+"\t");
+            }System.out.println();
+        }
+    break;
+    case 4:
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                C[i][j]=A[i][j]+B[i][j];
+            }
+        }
+        System.out.println("Scalar Matrix Multiplication");
+        for(int i=0;i<r;i++){
+            for(int j=0;j<c;j++){
+                System.out.print(C[i][j]);
+            }System.out.println();
+        }
+
+
+}
+    }
+    
+}
