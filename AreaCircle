@@ -1,0 +1,15 @@
+import java.util.Scanner;
+class AreaCircle{
+    public static void main(String args[]){
+        int r;
+        float A,p;
+        Scanner S= new Scanner(System.in);
+        p=(float) 3.14;
+        System.out.println("Enter Radius of the circle");
+        r=S.nextInt();
+        A=r*r*p;
+        System.out.println("Area of the circle is "+A);
+        
+    }
+            
+}
