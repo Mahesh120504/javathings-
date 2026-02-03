@@ -32,13 +32,6 @@ from db_sync import get_db
 load_dotenv()
 
 # ======================================================
-# MODELS
-# ======================================================
-class LoginData(BaseModel):
-    email: str
-    password: str
-
-# ======================================================
 # LIFECYCLE
 # ======================================================
 @asynccontextmanager
@@ -218,31 +211,6 @@ async def get_cameras(db: Session = Depends(get_db)):
 
     return results
 
-@app.post("/login")
-def login(data: LoginData, db: Session = Depends(get_db)):
-
-    query = text("""
-        SELECT password_hash, full_name, role_name
-        FROM safe.users u
-        JOIN safe.roles r ON u.role_id = r.role_id
-        WHERE u.email = :email
-    """)
-
-    result = db.execute(query, {"email": data.email}).fetchone()
-
-    if not result:
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-
-    stored_hash = result[0].encode()
-
-    if not bcrypt.checkpw(data.password.encode(), stored_hash):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
-
-    return {
-        "message": "Login successful",
-        "name": result[1],
-        "role": result[2]
-    }
 
 @app.get("/compliance-trend")
 def compliance_trend(db: Session = Depends(get_db)):

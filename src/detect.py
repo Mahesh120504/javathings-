@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 from db_async import db
 
 load_dotenv()
-#appended correction
+
 def iou(boxA, boxB):
     xA = max(boxA[0], boxB[0])
     yA = max(boxA[1], boxB[1])
@@ -43,19 +43,13 @@ VIOLATION_LABELS = ["NO-Hardhat", "NO-Mask", "NO-Safety Vest"]
 # Load Model
 model_path = os.getenv("YOLO_MODEL_PATH", "webest.pt")
 print(f"[*] Loading YOLO Model from {model_path}...")
-#model = YOLO(model_path)
+
+# GLOBAL MODEL INSTANCE
+model = YOLO(model_path)
 conf_threshold = float(os.getenv("CONFIDENCE_THRESHOLD", 0.35))
 
 class CameraMemory:
     def __init__(self):
-        #self.frame_cache = deque(maxlen=60)
-        #self.saved_person_ids = set()
-        # self.model = YOLO(model_path)   # 🔥 per-camera model
-        # self.frame_cache = deque(maxlen=60)
-        # self.saved_person_ids = set()
-        # self.virtual_id_map = {}
-        # self.next_virtual_id = 1
-        # self.last_seen = {}
         self.frame_cache = deque(maxlen=60)
         self.saved_person_ids = set()
 
@@ -63,7 +57,7 @@ class CameraMemory:
         self.next_person_id = 1
         self.last_seen = {}
 
-        self.model = YOLO(model_path)
+        # Removed per-instance model loading
 
 
 # ================= DETECTION LOGIC =================
@@ -72,8 +66,8 @@ async def process_frame(frame, cam_id):
         camera_states[cam_id] = CameraMemory()
     mem = camera_states[cam_id]
 
-    # Run Tracking
-    results = mem.model.track(frame, persist=True, verbose=False, conf=conf_threshold, tracker="botsort.yaml")
+    # Run Tracking using global model
+    results = model.track(frame, persist=True, verbose=False, conf=conf_threshold, tracker="botsort.yaml")
 
     current_frame_data = {
         'persons': [],
@@ -96,7 +90,7 @@ async def process_frame(frame, cam_id):
                 current_frame_data['ppe'].append((cls, box))
                 if label == "Vehicle": current_frame_data['flags']["vehicle"] = 1
                 if label == "Machinery": current_frame_data['flags']["machinery"] = 1
-        #appended correction
+
         for p in current_frame_data['persons']:
             matched_id = None
             for pid, prev_box in mem.person_registry.items():
@@ -112,23 +106,8 @@ async def process_frame(frame, cam_id):
             mem.last_seen[matched_id] = time.time()
             p['person_id'] = matched_id
 
-        #appended correction
         # ================= PERSISTENT PERSON ID ASSIGNMENT =================
-        for p in current_frame_data['persons']:
-            matched_id = None
-
-            for pid, prev_box in mem.person_registry.items():
-                if iou(p['box'], prev_box) > 0.4:
-                    matched_id = pid
-                    break
-
-            if matched_id is None:
-                matched_id = mem.next_person_id
-                mem.next_person_id += 1
-
-            mem.person_registry[matched_id] = p['box']
-            mem.last_seen[matched_id] = time.time()
-            p['person_id'] = matched_id
+        # (Redundant block removed in cleanup)
 
 
     mem.frame_cache.append({'image': frame.copy(), 'data': current_frame_data})
@@ -136,8 +115,6 @@ async def process_frame(frame, cam_id):
     violators_in_current_frame = {}
 
     for p_info in current_frame_data['persons']:
-        #appended correction
-        #p_id = p_info['id']
         p_id = p_info.get('person_id', p_info['id'])
         p_box = p_info['box']
         px1, py1, px2, py2 = p_box
@@ -163,7 +140,7 @@ async def process_frame(frame, cam_id):
 
         cv2.rectangle(frame, (px1, py1), (px2, py2), color, 2)
         cv2.putText(frame, text_label, (px1, py1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
-    #appended correction
+
     # 🔹 Cleanup stale persons (not seen for 10s)
     now = time.time()
     mem.person_registry = {

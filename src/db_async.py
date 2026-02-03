@@ -10,7 +10,9 @@ class DatabaseManager:
 
     async def connect(self):
         try:
-            self.pool = await asyncpg.create_pool(dsn=os.getenv("SC2_DATABASE_URL"))
+            # Use DATABASE_URL as standard, fallback to SC2_DATABASE_URL if needed
+            dsn = os.getenv("DATABASE_URL") or os.getenv("SC2_DATABASE_URL")
+            self.pool = await asyncpg.create_pool(dsn=dsn)
             print("[+] Database connected successfully.")
             await self.create_tables()
         except Exception as e:
