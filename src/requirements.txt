@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+sqlalchemy
+psycopg2-binary
+python-dotenv
+passlib[bcrypt]
+reportlab
+asyncpg
+ultralytics
+opencv-python
+python-multipart
+bcrypt
+httpx
+pydantic
